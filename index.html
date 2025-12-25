@@ -467,34 +467,33 @@
         }
 
         function deleteTrack(index) {
-            if (confirm('Delete this track?')) {
-                if (index === currentTrackIndex && isPlaying) {
-                    audioPlayer.pause();
-                    isPlaying = false;
-                    playBtn.textContent = 'PLAY';
-                }
-                
-                playlist.splice(index, 1);
-                
-                if (currentTrackIndex > index) {
-                    currentTrackIndex--;
-                } else if (currentTrackIndex >= playlist.length) {
-                    currentTrackIndex = Math.max(0, playlist.length - 1);
-                }
-                
-                updatePlaylist();
-                saveToStorage();
-                
-                if (playlist.length > 0) {
-                    loadTrack(currentTrackIndex);
-                } else {
-                    trackNameEl.textContent = 'Select a track';
-                    trackArtistEl.textContent = '---';
-                    audioPlayer.src = '';
-                    progressBar.style.width = '0%';
-                    currentTimeEl.textContent = '0:00';
-                    durationEl.textContent = '0:00';
-                }
+            // Remove confirmation dialog for Notion compatibility
+            if (index === currentTrackIndex && isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                playBtn.textContent = 'PLAY';
+            }
+            
+            playlist.splice(index, 1);
+            
+            if (currentTrackIndex > index) {
+                currentTrackIndex--;
+            } else if (currentTrackIndex >= playlist.length) {
+                currentTrackIndex = Math.max(0, playlist.length - 1);
+            }
+            
+            updatePlaylist();
+            saveToStorage();
+            
+            if (playlist.length > 0) {
+                loadTrack(currentTrackIndex);
+            } else {
+                trackNameEl.textContent = 'Select a track';
+                trackArtistEl.textContent = '---';
+                audioPlayer.src = '';
+                progressBar.style.width = '0%';
+                currentTimeEl.textContent = '0:00';
+                durationEl.textContent = '0:00';
             }
         }
 
@@ -515,7 +514,7 @@
             if (wasPlaying) {
                 audioPlayer.play().catch(err => {
                     console.error('Playback error:', err);
-                    alert('Could not play this track. Check if the URL is valid and publicly accessible.');
+                    // Silently handle in Notion
                     isPlaying = false;
                     playBtn.textContent = 'PLAY';
                 });
@@ -526,7 +525,7 @@
 
         function togglePlay() {
             if (playlist.length === 0) {
-                alert('Add some tracks first!');
+                // Silently return if no tracks (Notion compatibility)
                 return;
             }
 
@@ -537,7 +536,7 @@
             } else {
                 audioPlayer.play().catch(err => {
                     console.error('Playback error:', err);
-                    alert('Could not play this track. Check if the URL is valid and publicly accessible.');
+                    // Silently handle error in Notion
                 });
                 playBtn.textContent = 'PAUSE';
                 isPlaying = true;
@@ -569,7 +568,7 @@
             const url = urlInput.value.trim();
 
             if (!artist || !title || !url) {
-                alert('Please fill in all fields!');
+                // Silently return if fields are empty (Notion compatibility)
                 return;
             }
 
@@ -585,8 +584,6 @@
             if (playlist.length === 1) {
                 loadTrack(0);
             }
-
-            alert('Track added!');
         }
 
         function saveToStorage() {
@@ -605,24 +602,24 @@
         }
 
         function clearPlaylist() {
-            if (confirm('Clear entire playlist? This cannot be undone.')) {
-                playlist = [];
-                currentTrackIndex = 0;
-                audioPlayer.pause();
-                audioPlayer.src = '';
-                isPlaying = false;
-                playBtn.textContent = 'PLAY';
-                trackNameEl.textContent = 'Select a track';
-                trackArtistEl.textContent = '---';
-                updatePlaylist();
-                saveToStorage();
-            }
+            // Remove confirmation dialog for Notion compatibility
+            playlist = [];
+            currentTrackIndex = 0;
+            audioPlayer.pause();
+            audioPlayer.src = '';
+            isPlaying = false;
+            playBtn.textContent = 'PLAY';
+            trackNameEl.textContent = 'Select a track';
+            trackArtistEl.textContent = '---';
+            updatePlaylist();
+            saveToStorage();
         }
 
         audioPlayer.onerror = () => {
-            alert('Playback failed! Check if the URL is valid and publicly accessible.');
+            // Silently handle errors in Notion (no alert popups)
             isPlaying = false;
             playBtn.textContent = 'PLAY';
+            console.error('Audio playback failed');
         };
 
         // Event listeners
@@ -643,11 +640,11 @@
         addBtn.onclick = addTrack;
         saveBtn.onclick = () => {
             saveToStorage();
-            alert('Playlist saved!');
+            // No alert - silent save for Notion
         };
         loadBtn.onclick = () => {
             loadFromStorage();
-            alert('Playlist loaded!');
+            // No alert - silent load for Notion
         };
         clearBtn.onclick = clearPlaylist;
 
