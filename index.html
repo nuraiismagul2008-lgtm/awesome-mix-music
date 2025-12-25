@@ -157,6 +157,30 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
+        .toggle-section {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(180deg, #4a6fa5 0%, #3d5a85 100%);
+            color: white;
+            padding: 8px 20px;
+            font-size: 11px;
+        }
+
+        .collapsible-content {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 1;
+        }
+
+        .collapsible-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
         .playlist {
             background: rgba(255,255,255,0.3);
             border: 2px solid #8b7355;
@@ -305,33 +329,39 @@
             <button id="shuffleBtn">SHUFFLE</button>
         </div>
 
-        <div class="playlist">
-            <div class="playlist-title">TRACK LIST</div>
-            <div id="playlistContainer">
-                <div style="text-align: center; color: #666; font-style: italic;">No tracks loaded yet</div>
-            </div>
+        <div class="toggle-section">
+            <button class="toggle-btn" id="toggleBtn">SHOW PLAYLIST & CONTROLS</button>
         </div>
 
-        <div class="add-song-section">
-            <div class="add-song-title">ADD NEW TRACK</div>
-            <div class="input-group">
-                <label>Artist Name</label>
-                <input type="text" id="artistInput" placeholder="Blue Swede">
+        <div class="collapsible-content collapsed" id="collapsibleContent">
+            <div class="playlist">
+                <div class="playlist-title">TRACK LIST</div>
+                <div id="playlistContainer">
+                    <div style="text-align: center; color: #666; font-style: italic;">No tracks loaded yet</div>
+                </div>
             </div>
-            <div class="input-group">
-                <label>Song Title</label>
-                <input type="text" id="titleInput" placeholder="Hooked On A Feeling">
-            </div>
-            <div class="input-group">
-                <label>Audio URL (Dropbox / Direct Link)</label>
-                <input type="text" id="urlInput" placeholder="https://dropbox.com/...">
-            </div>
-            <button class="add-btn" id="addBtn">ADD TO PLAYLIST</button>
 
-            <div class="save-load-section">
-                <button id="saveBtn">SAVE</button>
-                <button id="loadBtn">LOAD</button>
-                <button id="clearBtn">CLEAR</button>
+            <div class="add-song-section">
+                <div class="add-song-title">ADD NEW TRACK</div>
+                <div class="input-group">
+                    <label>Artist Name</label>
+                    <input type="text" id="artistInput" placeholder="Blue Swede">
+                </div>
+                <div class="input-group">
+                    <label>Song Title</label>
+                    <input type="text" id="titleInput" placeholder="Hooked On A Feeling">
+                </div>
+                <div class="input-group">
+                    <label>Audio URL (Dropbox / Direct Link)</label>
+                    <input type="text" id="urlInput" placeholder="https://dropbox.com/...">
+                </div>
+                <button class="add-btn" id="addBtn">ADD TO PLAYLIST</button>
+
+                <div class="save-load-section">
+                    <button id="saveBtn">SAVE</button>
+                    <button id="loadBtn">LOAD</button>
+                    <button id="clearBtn">CLEAR</button>
+                </div>
             </div>
         </div>
 
@@ -343,6 +373,7 @@
         let currentTrackIndex = 0;
         let isPlaying = false;
         let isShuffled = false;
+        let isExpanded = false;
 
         const audioPlayer = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playBtn');
@@ -363,6 +394,20 @@
         const saveBtn = document.getElementById('saveBtn');
         const loadBtn = document.getElementById('loadBtn');
         const clearBtn = document.getElementById('clearBtn');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const collapsibleContent = document.getElementById('collapsibleContent');
+
+        // Toggle collapsible section
+        toggleBtn.onclick = () => {
+            isExpanded = !isExpanded;
+            if (isExpanded) {
+                collapsibleContent.classList.remove('collapsed');
+                toggleBtn.textContent = 'HIDE PLAYLIST & CONTROLS';
+            } else {
+                collapsibleContent.classList.add('collapsed');
+                toggleBtn.textContent = 'SHOW PLAYLIST & CONTROLS';
+            }
+        };
 
         // Convert URLs to direct playable format
         function convertToDirectURL(url) {
@@ -423,7 +468,6 @@
 
         function deleteTrack(index) {
             if (confirm('Delete this track?')) {
-                // Pause if currently playing the track being deleted
                 if (index === currentTrackIndex && isPlaying) {
                     audioPlayer.pause();
                     isPlaying = false;
@@ -432,7 +476,6 @@
                 
                 playlist.splice(index, 1);
                 
-                // Adjust current track index
                 if (currentTrackIndex > index) {
                     currentTrackIndex--;
                 } else if (currentTrackIndex >= playlist.length) {
@@ -558,9 +601,6 @@
                 if (playlist.length > 0) {
                     loadTrack(0);
                 }
-                alert('Playlist loaded!');
-            } else {
-                alert('No saved playlist found.');
             }
         }
 
@@ -579,9 +619,8 @@
             }
         }
 
-        // Add error handler
         audioPlayer.onerror = () => {
-            alert('❌ Playback failed!\n\nCheck if the URL is valid and publicly accessible.\n\nTip: Use Dropbox or direct MP3 links for best results.');
+            alert('Playback failed! Check if the URL is valid and publicly accessible.');
             isPlaying = false;
             playBtn.textContent = 'PLAY';
         };
@@ -602,11 +641,16 @@
         };
         shuffleBtn.onclick = toggleShuffle;
         addBtn.onclick = addTrack;
-        saveBtn.onclick = saveToStorage;
-        loadBtn.onclick = loadFromStorage;
+        saveBtn.onclick = () => {
+            saveToStorage();
+            alert('Playlist saved!');
+        };
+        loadBtn.onclick = () => {
+            loadFromStorage();
+            alert('Playlist loaded!');
+        };
         clearBtn.onclick = clearPlaylist;
 
-        // Progress bar click to seek
         progressContainer.onclick = (e) => {
             if (audioPlayer.duration) {
                 const rect = progressContainer.getBoundingClientRect();
