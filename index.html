@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awesome Mix Vol.1,2 & 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .player-container {
+            background: linear-gradient(180deg, #f5f0e8 0%, #e8dcc8 100%);
+            border: 8px solid #3d3d3d;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5),
+                        inset 0 2px 4px rgba(255,255,255,0.3);
+        }
+
+        .cassette-title {
+            text-align: center;
+            font-size: 28px;
+            color: #4a6fa5;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .cassette {
+            background: linear-gradient(180deg, #f5f0e8 0%, #d4c8b8 100%);
+            border: 3px solid #8b7355;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .cassette-stripes {
+            height: 80px;
+            background: repeating-linear-gradient(
+                0deg,
+                #ff6b6b 0px,
+                #ff6b6b 8px,
+                #fff 8px,
+                #fff 12px
+            );
+            margin-bottom: 15px;
+            border: 2px solid #333;
+            position: relative;
+        }
+
+        .cassette-holes {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding: 0 40px;
+        }
+
+        .hole {
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle, #1a1a1a 0%, #000 70%);
+            border-radius: 50%;
+            border: 3px solid #666;
+        }
+
+        .track-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .track-name {
+            font-size: 18px;
+            color: #2c2c2c;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .track-artist {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress-container {
+            background: #c4b5a0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border: 1px solid #8b7355;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b 0%, #ff4444 100%);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        button {
+            background: linear-gradient(180deg, #e8dcc8 0%, #d4c8b8 100%);
+            border: 2px solid #8b7355;
+            border-radius: 4px;
+            padding: 12px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c2c2c;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(180deg, #f5f0e8 0%, #e8dcc8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .playlist {
+            background: rgba(255,255,255,0.3);
+            border: 2px solid #8b7355;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .playlist-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c2c2c;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .playlist-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background 0.2s;
+            font-size: 13px;
+            color: #2c2c2c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .playlist-item:hover {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .playlist-item.active {
+            background: #ff6b6b;
+            color: white;
+            font-weight: bold;
+        }
+
+        .delete-btn {
+            padding: 2px 8px;
+            font-size: 11px;
+            background: #d4524e;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: #b93f3b;
+            transform: none;
+        }
+
+        .add-song-section {
+            background: rgba(255,255,255,0.3);
+            border: 2px solid #8b7355;
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .add-song-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c2c2c;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border: 2px solid #8b7355;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.7);
+        }
+
+        .add-btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .instruction {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        .instruction strong {
+            color: #2c2c2c;
+        }
+
+        .save-load-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px dashed #8b7355;
+            display: flex;
+            gap: 10px;
+        }
+
+        .save-load-section button {
+            flex: 1;
+            padding: 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="cassette-title">AWESOME MIX VOL.1,2 & 3</div>
+        
+        <div class="cassette">
+            <div class="cassette-stripes">
+                <div class="cassette-holes">
+                    <div class="hole"></div>
+                    <div class="hole"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="track-info">
+            <div class="track-name" id="trackName">Select a track</div>
+            <div class="track-artist" id="trackArtist">---</div>
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="time-display">
+            <span id="currentTime">0:00</span>
+            <span id="duration">0:00</span>
+        </div>
+
+        <div class="controls">
+            <button id="prevBtn">PREV</button>
+            <button id="playBtn">PLAY</button>
+            <button id="nextBtn">NEXT</button>
+            <button id="shuffleBtn">SHUFFLE</button>
+        </div>
+
+        <div class="playlist">
+            <div class="playlist-title">TRACK LIST</div>
+            <div id="playlistContainer">
+                <div style="text-align: center; color: #666; font-style: italic;">No tracks loaded yet</div>
+            </div>
+        </div>
+
+        <div class="add-song-section">
+            <div class="add-song-title">ADD NEW TRACK</div>
+            <div class="input-group">
+                <label>Artist Name</label>
+                <input type="text" id="artistInput" placeholder="Blue Swede">
+            </div>
+            <div class="input-group">
+                <label>Song Title</label>
+                <input type="text" id="titleInput" placeholder="Hooked On A Feeling">
+            </div>
+            <div class="input-group">
+                <label>Audio URL (Google Drive / Dropbox)</label>
+                <input type="text" id="urlInput" placeholder="https://drive.google.com/...">
+            </div>
+            <button class="add-btn" id="addBtn">ADD TO PLAYLIST</button>
+            
+            <div class="instruction">
+                <strong>How to get audio URLs:</strong><br>
+                <strong>Google Drive (WARNING: May not work due to CORS):</strong><br>
+                Share file → Copy link → Paste here (we'll convert it)<br>
+                <strong>Dropbox (RECOMMENDED - Most Reliable):</strong><br>
+                Share file → Copy link → Paste here<br>
+                <strong>Alternative:</strong> Use archive.org, catbox.moe, or direct MP3 URLs
+            </div>
+
+            <div class="save-load-section">
+                <button id="saveBtn">SAVE PLAYLIST</button>
+                <button id="loadBtn">LOAD PLAYLIST</button>
+                <button id="clearBtn">CLEAR ALL</button>
+            </div>
+        </div>
+
+        <audio id="audioPlayer"></audio>
+    </div>
+
+    <script>
+        let playlist = [];
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        let isShuffled = false;
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const trackNameEl = document.getElementById('trackName');
+        const trackArtistEl = document.getElementById('trackArtist');
+        const playlistContainer = document.getElementById('playlistContainer');
+        const artistInput = document.getElementById('artistInput');
+        const titleInput = document.getElementById('titleInput');
+        const urlInput = document.getElementById('urlInput');
+        const addBtn = document.getElementById('addBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const loadBtn = document.getElementById('loadBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Convert Google Drive URLs to direct playable format
+        function convertToDirectURL(url) {
+            if (url.includes('drive.google.com')) {
+                let fileId = '';
+                
+                // Extract file ID from various Google Drive URL formats
+                if (url.includes('/d/')) {
+                    fileId = url.split('/d/')[1].split('/')[0];
+                } else if (url.includes('id=')) {
+                    fileId = url.split('id=')[1].split('&')[0];
+                }
+                
+                if (fileId) {
+                    // Try multiple formats - some work better than others
+                    // Format 1: Direct download (most reliable for small files)
+                    return `https://drive.google.com/uc?export=download&id=${fileId}`;
+                    
+                    // If that doesn't work, user can try these alternatives:
+                    // Format 2: `https://docs.google.com/uc?export=open&id=${fileId}`
+                    // Format 3: `https://drive.google.com/uc?id=${fileId}`
+                }
+            } else if (url.includes('dropbox.com')) {
+                return url.replace('dl=0', 'dl=1').replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+            }
+            return url;
+        }
+
+        function formatTime(seconds) {
+            if (!seconds || isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updatePlaylist() {
+            if (playlist.length === 0) {
+                playlistContainer.innerHTML = '<div style="text-align: center; color: #666; font-style: italic;">No tracks loaded yet</div>';
+                return;
+            }
+            
+            playlistContainer.innerHTML = '';
+            playlist.forEach((track, index) => {
+                const item = document.createElement('div');
+                item.className = 'playlist-item';
+                if (index === currentTrackIndex) {
+                    item.classList.add('active');
+                }
+                
+                const textSpan = document.createElement('span');
+                textSpan.textContent = `${index + 1}. ${track.artist} - ${track.title}`;
+                textSpan.onclick = () => loadTrack(index);
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.textContent = 'DELETE';
+                deleteBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    deleteTrack(index);
+                };
+                
+                item.appendChild(textSpan);
+                item.appendChild(deleteBtn);
+                playlistContainer.appendChild(item);
+            });
+        }
+
+        function deleteTrack(index) {
+            if (confirm('Delete this track?')) {
+                playlist.splice(index, 1);
+                if (currentTrackIndex >= playlist.length) {
+                    currentTrackIndex = Math.max(0, playlist.length - 1);
+                }
+                updatePlaylist();
+                if (playlist.length > 0) {
+                    loadTrack(currentTrackIndex);
+                } else {
+                    trackNameEl.textContent = 'Select a track';
+                    trackArtistEl.textContent = '---';
+                    audioPlayer.src = '';
+                }
+                saveToStorage();
+            }
+        }
+
+        function loadTrack(index) {
+            if (index < 0 || index >= playlist.length) return;
+            
+            const wasPlaying = isPlaying;
+            currentTrackIndex = index;
+            const track = playlist[currentTrackIndex];
+            
+            trackNameEl.textContent = track.title;
+            trackArtistEl.textContent = track.artist;
+            
+            const directURL = convertToDirectURL(track.url);
+            audioPlayer.src = directURL;
+            audioPlayer.load();
+            
+            if (wasPlaying) {
+                audioPlayer.play().catch(err => {
+                    console.error('Playback error:', err);
+                    alert('Could not play this track. Check if the URL is valid and publicly accessible.');
+                    isPlaying = false;
+                    playBtn.textContent = 'PLAY';
+                });
+            }
+            
+            updatePlaylist();
+        }
+
+        function togglePlay() {
+            if (playlist.length === 0) {
+                alert('Add some tracks first!');
+                return;
+            }
+
+            if (isPlaying) {
+                audioPlayer.pause();
+                playBtn.textContent = 'PLAY';
+                isPlaying = false;
+            } else {
+                audioPlayer.play().catch(err => {
+                    console.error('Playback error:', err);
+                    alert('Could not play this track. Check if the URL is valid and publicly accessible.');
+                });
+                playBtn.textContent = 'PAUSE';
+                isPlaying = true;
+            }
+        }
+
+        function toggleShuffle() {
+            isShuffled = !isShuffled;
+            shuffleBtn.style.background = isShuffled ? 
+                'linear-gradient(180deg, #ff8b6b 0%, #ff6b6b 100%)' : 
+                'linear-gradient(180deg, #e8dcc8 0%, #d4c8b8 100%)';
+            shuffleBtn.style.color = isShuffled ? 'white' : '#2c2c2c';
+        }
+
+        function getNextTrackIndex() {
+            if (isShuffled) {
+                let randomIndex;
+                do {
+                    randomIndex = Math.floor(Math.random() * playlist.length);
+                } while (randomIndex === currentTrackIndex && playlist.length > 1);
+                return randomIndex;
+            }
+            return (currentTrackIndex + 1) % playlist.length;
+        }
+
+        function addTrack() {
+            const artist = artistInput.value.trim();
+            const title = titleInput.value.trim();
+            const url = urlInput.value.trim();
+
+            if (!artist || !title || !url) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            playlist.push({ artist, title, url });
+            
+            artistInput.value = '';
+            titleInput.value = '';
+            urlInput.value = '';
+            
+            updatePlaylist();
+            saveToStorage();
+            
+            if (playlist.length === 1) {
+                loadTrack(0);
+            }
+
+            alert('Track added!');
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('awesomeMixPlaylist', JSON.stringify(playlist));
+        }
+
+        function loadFromStorage() {
+            const saved = localStorage.getItem('awesomeMixPlaylist');
+            if (saved) {
+                playlist = JSON.parse(saved);
+                updatePlaylist();
+                if (playlist.length > 0) {
+                    loadTrack(0);
+                }
+                alert('Playlist loaded!');
+            } else {
+                alert('No saved playlist found.');
+            }
+        }
+
+        function clearPlaylist() {
+            if (confirm('Clear entire playlist? This cannot be undone.')) {
+                playlist = [];
+                currentTrackIndex = 0;
+                audioPlayer.pause();
+                audioPlayer.src = '';
+                isPlaying = false;
+                playBtn.textContent = 'PLAY';
+                trackNameEl.textContent = 'Select a track';
+                trackArtistEl.textContent = '---';
+                updatePlaylist();
+                saveToStorage();
+            }
+        }
+
+        // Event listeners
+        playBtn.onclick = togglePlay;
+        prevBtn.onclick = () => {
+            const prevIndex = currentTrackIndex - 1;
+            if (prevIndex >= 0) {
+                loadTrack(prevIndex);
+                if (isPlaying) audioPlayer.play();
+            }
+        };
+        nextBtn.onclick = () => {
+            const nextIndex = getNextTrackIndex();
+            loadTrack(nextIndex);
+            if (isPlaying) audioPlayer.play();
+        };
+        shuffleBtn.onclick = toggleShuffle;
+        addBtn.onclick = addTrack;
+        saveBtn.onclick = saveToStorage;
+        loadBtn.onclick = loadFromStorage;
+        clearBtn.onclick = clearPlaylist;
+
+        // Progress bar click to seek
+        progressContainer.onclick = (e) => {
+            if (audioPlayer.duration) {
+                const rect = progressContainer.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                audioPlayer.currentTime = pos * audioPlayer.duration;
+            }
+        };
+
+        audioPlayer.ontimeupdate = () => {
+            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressBar.style.width = progress + '%';
+            currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+        };
+
+        audioPlayer.onloadedmetadata = () => {
+            durationEl.textContent = formatTime(audioPlayer.duration);
+        };
+
+        audioPlayer.onended = () => {
+            if (currentTrackIndex < playlist.length - 1 || isShuffled) {
+                loadTrack(getNextTrackIndex());
+                audioPlayer.play();
+            } else {
+                playBtn.textContent = 'PLAY';
+                isPlaying = false;
+            }
+        };
+
+        // Load saved playlist on startup
+        loadFromStorage();
+    </script>
+</body>
+</html>
