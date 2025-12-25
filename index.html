@@ -23,44 +23,44 @@
 
         .player-container {
             background: linear-gradient(180deg, #f5f0e8 0%, #e8dcc8 100%);
-            border: 8px solid #3d3d3d;
-            border-radius: 8px;
-            padding: 30px;
-            max-width: 600px;
+            border: 6px solid #3d3d3d;
+            border-radius: 6px;
+            padding: 20px;
+            max-width: 450px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5),
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5),
                         inset 0 2px 4px rgba(255,255,255,0.3);
         }
 
         .cassette-title {
             text-align: center;
-            font-size: 28px;
+            font-size: 20px;
             color: #4a6fa5;
-            margin-bottom: 25px;
-            letter-spacing: 2px;
+            margin-bottom: 15px;
+            letter-spacing: 1.5px;
             font-weight: bold;
             text-transform: uppercase;
         }
 
         .cassette {
             background: linear-gradient(180deg, #f5f0e8 0%, #d4c8b8 100%);
-            border: 3px solid #8b7355;
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+            border: 2px solid #8b7355;
+            border-radius: 3px;
+            padding: 12px;
+            margin-bottom: 15px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
         }
 
         .cassette-stripes {
-            height: 80px;
+            height: 50px;
             background: repeating-linear-gradient(
                 0deg,
                 #ff6b6b 0px,
-                #ff6b6b 8px,
-                #fff 8px,
-                #fff 12px
+                #ff6b6b 6px,
+                #fff 6px,
+                #fff 9px
             );
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border: 2px solid #333;
             position: relative;
         }
@@ -72,39 +72,39 @@
             display: flex;
             justify-content: space-around;
             width: 100%;
-            padding: 0 40px;
+            padding: 0 30px;
         }
 
         .hole {
-            width: 35px;
-            height: 35px;
+            width: 25px;
+            height: 25px;
             background: radial-gradient(circle, #1a1a1a 0%, #000 70%);
             border-radius: 50%;
-            border: 3px solid #666;
+            border: 2px solid #666;
         }
 
         .track-info {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .track-name {
-            font-size: 18px;
+            font-size: 15px;
             color: #2c2c2c;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: bold;
         }
 
         .track-artist {
-            font-size: 14px;
+            font-size: 12px;
             color: #666;
         }
 
         .progress-container {
             background: #c4b5a0;
-            height: 8px;
-            border-radius: 4px;
-            margin-bottom: 20px;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 12px;
             border: 1px solid #8b7355;
             overflow: hidden;
             cursor: pointer;
@@ -120,36 +120,36 @@
         .time-display {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
+            font-size: 10px;
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         button {
             background: linear-gradient(180deg, #e8dcc8 0%, #d4c8b8 100%);
             border: 2px solid #8b7355;
-            border-radius: 4px;
-            padding: 12px 20px;
+            border-radius: 3px;
+            padding: 8px 14px;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 11px;
             font-weight: bold;
             color: #2c2c2c;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         button:hover {
             background: linear-gradient(180deg, #f5f0e8 0%, #e8dcc8 100%);
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
         button:active {
@@ -160,29 +160,29 @@
         .playlist {
             background: rgba(255,255,255,0.3);
             border: 2px solid #8b7355;
-            border-radius: 4px;
-            padding: 15px;
-            margin-bottom: 20px;
-            max-height: 300px;
+            border-radius: 3px;
+            padding: 10px;
+            margin-bottom: 12px;
+            max-height: 200px;
             overflow-y: auto;
         }
 
         .playlist-title {
-            font-size: 14px;
+            font-size: 11px;
             font-weight: bold;
             color: #2c2c2c;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .playlist-item {
-            padding: 8px;
-            margin-bottom: 5px;
+            padding: 6px;
+            margin-bottom: 4px;
             cursor: pointer;
-            border-radius: 3px;
+            border-radius: 2px;
             transition: background 0.2s;
-            font-size: 13px;
+            font-size: 11px;
             color: #2c2c2c;
             display: flex;
             justify-content: space-between;
@@ -200,12 +200,12 @@
         }
 
         .delete-btn {
-            padding: 2px 8px;
-            font-size: 11px;
+            padding: 2px 6px;
+            font-size: 9px;
             background: #d4524e;
             color: white;
             border: none;
-            border-radius: 3px;
+            border-radius: 2px;
             cursor: pointer;
         }
 
@@ -217,50 +217,50 @@
         .add-song-section {
             background: rgba(255,255,255,0.3);
             border: 2px solid #8b7355;
-            border-radius: 4px;
-            padding: 15px;
+            border-radius: 3px;
+            padding: 10px;
         }
 
         .add-song-title {
-            font-size: 14px;
+            font-size: 11px;
             font-weight: bold;
             color: #2c2c2c;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .input-group {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .input-group label {
             display: block;
-            font-size: 12px;
+            font-size: 10px;
             color: #666;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .input-group input {
             width: 100%;
-            padding: 8px;
+            padding: 6px;
             font-family: 'Courier New', monospace;
-            font-size: 13px;
+            font-size: 11px;
             border: 2px solid #8b7355;
-            border-radius: 4px;
+            border-radius: 3px;
             background: rgba(255,255,255,0.7);
         }
 
         .add-btn {
             width: 100%;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .instruction {
-            font-size: 11px;
+            font-size: 9px;
             color: #666;
-            margin-top: 10px;
-            line-height: 1.5;
+            margin-top: 8px;
+            line-height: 1.4;
         }
 
         .instruction strong {
@@ -268,17 +268,17 @@
         }
 
         .save-load-section {
-            margin-top: 15px;
-            padding-top: 15px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 2px dashed #8b7355;
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .save-load-section button {
             flex: 1;
-            padding: 10px;
-            font-size: 12px;
+            padding: 8px;
+            font-size: 10px;
         }
     </style>
 </head>
@@ -334,24 +334,22 @@
                 <input type="text" id="titleInput" placeholder="Hooked On A Feeling">
             </div>
             <div class="input-group">
-                <label>Audio URL (Google Drive / Dropbox)</label>
-                <input type="text" id="urlInput" placeholder="https://drive.google.com/...">
+                <label>Audio URL (Dropbox / Direct Link)</label>
+                <input type="text" id="urlInput" placeholder="https://dropbox.com/...">
             </div>
             <button class="add-btn" id="addBtn">ADD TO PLAYLIST</button>
             
             <div class="instruction">
                 <strong>How to get audio URLs:</strong><br>
-                <strong>Google Drive (WARNING: May not work due to CORS):</strong><br>
-                Share file → Copy link → Paste here (we'll convert it)<br>
-                <strong>Dropbox (RECOMMENDED - Most Reliable):</strong><br>
-                Share file → Copy link → Paste here<br>
-                <strong>Alternative:</strong> Use archive.org, catbox.moe, or direct MP3 URLs
+                <strong>Dropbox (RECOMMENDED):</strong> Share file → Copy link → Paste here<br>
+                <strong>Alternative:</strong> archive.org, catbox.moe, or direct MP3 URLs<br>
+                ⚠️ Google Drive often blocked by CORS
             </div>
 
             <div class="save-load-section">
-                <button id="saveBtn">SAVE PLAYLIST</button>
-                <button id="loadBtn">LOAD PLAYLIST</button>
-                <button id="clearBtn">CLEAR ALL</button>
+                <button id="saveBtn">SAVE</button>
+                <button id="loadBtn">LOAD</button>
+                <button id="clearBtn">CLEAR</button>
             </div>
         </div>
 
@@ -384,26 +382,17 @@
         const loadBtn = document.getElementById('loadBtn');
         const clearBtn = document.getElementById('clearBtn');
 
-        // Convert Google Drive URLs to direct playable format
+        // Convert URLs to direct playable format
         function convertToDirectURL(url) {
             if (url.includes('drive.google.com')) {
                 let fileId = '';
-                
-                // Extract file ID from various Google Drive URL formats
                 if (url.includes('/d/')) {
                     fileId = url.split('/d/')[1].split('/')[0];
                 } else if (url.includes('id=')) {
                     fileId = url.split('id=')[1].split('&')[0];
                 }
-                
                 if (fileId) {
-                    // Try multiple formats - some work better than others
-                    // Format 1: Direct download (most reliable for small files)
                     return `https://drive.google.com/uc?export=download&id=${fileId}`;
-                    
-                    // If that doesn't work, user can try these alternatives:
-                    // Format 2: `https://docs.google.com/uc?export=open&id=${fileId}`
-                    // Format 3: `https://drive.google.com/uc?id=${fileId}`
                 }
             } else if (url.includes('dropbox.com')) {
                 return url.replace('dl=0', 'dl=1').replace('www.dropbox.com', 'dl.dropboxusercontent.com');
@@ -438,7 +427,7 @@
                 
                 const deleteBtn = document.createElement('button');
                 deleteBtn.className = 'delete-btn';
-                deleteBtn.textContent = 'DELETE';
+                deleteBtn.textContent = 'DEL';
                 deleteBtn.onclick = (e) => {
                     e.stopPropagation();
                     deleteTrack(index);
@@ -591,6 +580,13 @@
                 saveToStorage();
             }
         }
+
+        // Add error handler
+        audioPlayer.onerror = () => {
+            alert('❌ Playback failed!\n\nGoogle Drive links often don\'t work due to CORS.\n\nTry:\n• Dropbox (recommended)\n• Archive.org\n• Direct MP3 URLs');
+            isPlaying = false;
+            playBtn.textContent = 'PLAY';
+        };
 
         // Event listeners
         playBtn.onclick = togglePlay;
