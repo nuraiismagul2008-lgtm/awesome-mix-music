@@ -256,17 +256,6 @@
             margin-top: 8px;
         }
 
-        .instruction {
-            font-size: 9px;
-            color: #666;
-            margin-top: 8px;
-            line-height: 1.4;
-        }
-
-        .instruction strong {
-            color: #2c2c2c;
-        }
-
         .save-load-section {
             margin-top: 10px;
             padding-top: 10px;
@@ -338,13 +327,6 @@
                 <input type="text" id="urlInput" placeholder="https://dropbox.com/...">
             </div>
             <button class="add-btn" id="addBtn">ADD TO PLAYLIST</button>
-            
-            <div class="instruction">
-                <strong>How to get audio URLs:</strong><br>
-                <strong>Dropbox (RECOMMENDED):</strong> Share file → Copy link → Paste here<br>
-                <strong>Alternative:</strong> archive.org, catbox.moe, or direct MP3 URLs<br>
-                ⚠️ Google Drive often blocked by CORS
-            </div>
 
             <div class="save-load-section">
                 <button id="saveBtn">SAVE</button>
@@ -441,19 +423,35 @@
 
         function deleteTrack(index) {
             if (confirm('Delete this track?')) {
+                // Pause if currently playing the track being deleted
+                if (index === currentTrackIndex && isPlaying) {
+                    audioPlayer.pause();
+                    isPlaying = false;
+                    playBtn.textContent = 'PLAY';
+                }
+                
                 playlist.splice(index, 1);
-                if (currentTrackIndex >= playlist.length) {
+                
+                // Adjust current track index
+                if (currentTrackIndex > index) {
+                    currentTrackIndex--;
+                } else if (currentTrackIndex >= playlist.length) {
                     currentTrackIndex = Math.max(0, playlist.length - 1);
                 }
+                
                 updatePlaylist();
+                saveToStorage();
+                
                 if (playlist.length > 0) {
                     loadTrack(currentTrackIndex);
                 } else {
                     trackNameEl.textContent = 'Select a track';
                     trackArtistEl.textContent = '---';
                     audioPlayer.src = '';
+                    progressBar.style.width = '0%';
+                    currentTimeEl.textContent = '0:00';
+                    durationEl.textContent = '0:00';
                 }
-                saveToStorage();
             }
         }
 
@@ -583,7 +581,7 @@
 
         // Add error handler
         audioPlayer.onerror = () => {
-            alert('❌ Playback failed!\n\nGoogle Drive links often don\'t work due to CORS.\n\nTry:\n• Dropbox (recommended)\n• Archive.org\n• Direct MP3 URLs');
+            alert('❌ Playback failed!\n\nCheck if the URL is valid and publicly accessible.\n\nTip: Use Dropbox or direct MP3 links for best results.');
             isPlaying = false;
             playBtn.textContent = 'PLAY';
         };
